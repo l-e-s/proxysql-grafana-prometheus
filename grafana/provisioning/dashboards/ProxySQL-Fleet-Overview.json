@@ -19,7 +19,10 @@
   "links": [],
   "panels": [
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus_ds"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {},
@@ -69,7 +72,7 @@
       "pluginVersion": "7.3.6",
       "targets": [
         {
-          "expr": "sum(proxysql_active_transactions{instance=~\"$instance\",job=\"$job\"})",
+          "expr": "sum(proxysql_active_transactions{pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\"})",
           "instant": false,
           "interval": "",
           "legendFormat": "",
@@ -82,7 +85,10 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus_ds"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {},
@@ -127,11 +133,11 @@
       "pluginVersion": "7.3.6",
       "targets": [
         {
-          "expr": "proxysql_client_connections_connected{instance=~\"$instance\",job=\"$job\"}",
+          "expr": "proxysql_client_connections_connected{pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\"}",
           "format": "time_series",
           "instant": false,
           "interval": "",
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{job}}",
           "refId": "A"
         }
       ],
@@ -141,7 +147,10 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus_ds"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {},
@@ -185,9 +194,9 @@
       "pluginVersion": "7.3.6",
       "targets": [
         {
-          "expr": "proxysql_client_connections_connected{instance=~\"$instance\",job=\"$job\"}/proxysql_mysql_max_connections{instance=~\"$instance\",job=\"$job\"}*100",
+          "expr": "proxysql_client_connections_connected{pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\"}/proxysql_mysql_max_connections{pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\"}*100",
           "interval": "",
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{job}}",
           "refId": "A"
         }
       ],
@@ -197,7 +206,10 @@
       "type": "gauge"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus_ds"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {},
@@ -242,11 +254,11 @@
       "pluginVersion": "7.3.6",
       "targets": [
         {
-          "expr": "proxysql_server_connections_connected{instance=~\"$instance\",job=\"$job\"}",
+          "expr": "proxysql_server_connections_connected{pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\"}",
           "format": "time_series",
           "instant": false,
           "interval": "",
-          "legendFormat": "{{instance}}",
+          "legendFormat": "{{job}}",
           "refId": "A"
         }
       ],
@@ -256,7 +268,10 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus_ds"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -311,7 +326,7 @@
       "pluginVersion": "7.3.6",
       "targets": [
         {
-          "expr": "100-(sum(proxysql_connpool_conns{instance=~\"$instance\",job=\"$job\",status=\"used\"})/sum(proxysql_client_connections_connected{instance=~\"$instance\",job=\"$job\"})*100)",
+          "expr": "100-(sum(proxysql_connpool_conns{pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\",status=\"used\"})/sum(proxysql_client_connections_connected{pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\"})*100)",
           "instant": false,
           "interval": "",
           "legendFormat": "Multiplexing Efficiency Ratio",
@@ -328,7 +343,10 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus_ds"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -390,15 +408,15 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "proxysql_client_connections_non_idle{instance=~\"$instance\",job=\"$job\"}",
+          "expr": "proxysql_client_connections_non_idle{pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\"}",
           "interval": "",
-          "legendFormat": "{{instance}} (used)",
+          "legendFormat": "{{job}} (used)",
           "refId": "A"
         },
         {
-          "expr": "proxysql_client_connections_connected{instance=~\"$instance\",job=\"$job\"}-proxysql_client_connections_non_idle{instance=~\"$instance\",job=\"$job\"}",
+          "expr": "proxysql_client_connections_connected{pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\"}-proxysql_client_connections_non_idle{pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\"}",
           "interval": "",
-          "legendFormat": "{{instance}} (idle)",
+          "legendFormat": "{{job}} (idle)",
           "refId": "B"
         }
       ],
@@ -444,7 +462,10 @@
       }
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus_ds"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {},
@@ -493,21 +514,21 @@
       "pluginVersion": "7.3.6",
       "targets": [
         {
-          "expr": "sum(proxysql_client_connections_connected{instance=~\"$instance\",job=\"$job\"})",
+          "expr": "sum(proxysql_client_connections_connected{pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\"})",
           "instant": false,
           "interval": "",
           "legendFormat": "Total Frontend Connections",
           "refId": "D"
         },
         {
-          "expr": "sum(proxysql_connpool_conns{instance=~\"$instance\",job=\"$job\",status=\"used\"})",
+          "expr": "sum(proxysql_connpool_conns{pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\",status=\"used\"})",
           "instant": false,
           "interval": "",
           "legendFormat": "Total Backend Connections (in-use)",
           "refId": "C"
         },
         {
-          "expr": "sum(proxysql_connpool_conns{instance=~\"$instance\",job=\"$job\",status=\"free\"})",
+          "expr": "sum(proxysql_connpool_conns{pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\",status=\"free\"})",
           "instant": false,
           "interval": "",
           "legendFormat": "Total Backend Connections (free)",
@@ -520,7 +541,10 @@
       "type": "stat"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus_ds"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {},
@@ -566,25 +590,25 @@
       "pluginVersion": "7.3.6",
       "targets": [
         {
-          "expr": "sum(irate(proxysql_queries_frontends_bytes_total{instance=~\"$instance\",job=\"$job\",traffic_flow=\"sent\"}[$__rate_interval]))",
+          "expr": "sum(irate(proxysql_queries_frontends_bytes_total{pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\",traffic_flow=\"sent\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Frontend Send Rate",
           "refId": "A"
         },
         {
-          "expr": "sum(irate(proxysql_queries_frontends_bytes_total{traffic_flow=\"received\",instance=~\"$instance\",job=\"$job\"}[$__rate_interval]))",
+          "expr": "sum(irate(proxysql_queries_frontends_bytes_total{traffic_flow=\"received\",pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Frontend Receive Rate",
           "refId": "B"
         },
         {
-          "expr": "sum(irate(proxysql_queries_backends_bytes_total{traffic_flow=\"sent\",instance=~\"$instance\",job=\"$job\"}[$__rate_interval]))",
+          "expr": "sum(irate(proxysql_queries_backends_bytes_total{traffic_flow=\"sent\",pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Backend Send Rate",
           "refId": "C"
         },
         {
-          "expr": "sum(irate(proxysql_queries_backends_bytes_total{traffic_flow=\"received\",instance=~\"$instance\",job=\"$job\"}[$__rate_interval]))",
+          "expr": "sum(irate(proxysql_queries_backends_bytes_total{traffic_flow=\"received\",pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\"}[$__rate_interval]))",
           "interval": "",
           "legendFormat": "Backend Receive Rate",
           "refId": "D"
@@ -600,7 +624,10 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus_ds"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -662,13 +689,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(proxysql_connpool_conns{instance=~\"$instance\",job=\"$job\",status=\"used\"}) by (endpoint)",
+          "expr": "sum(proxysql_connpool_conns{pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\",status=\"used\"}) by (endpoint)",
           "interval": "",
           "legendFormat": "{{endpoint}} (used)",
           "refId": "A"
         },
         {
-          "expr": "sum(proxysql_connpool_conns{instance=~\"$instance\",job=\"$job\",status=\"free\"}) by (endpoint)",
+          "expr": "sum(proxysql_connpool_conns{pod=\"$pod\", namespace=\"$namespace\", job=\"$job\", env=\"$env\", cluster=\"$cluster\",status=\"free\"}) by (endpoint)",
           "hide": false,
           "interval": "",
           "legendFormat": "{{endpoint}} (free)",
@@ -717,65 +744,236 @@
       }
     }
   ],
-  "refresh": false,
+  "refresh": "10s",
   "schemaVersion": 26,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
-        "allValue": null,
         "current": {
           "selected": false,
-          "text": "127.0.0.1:6070",
-          "value": "127.0.0.1:6070"
+          "text": "Prometheus",
+          "value": "Prometheus"
         },
-        "datasource": "Prometheus",
-        "definition": "label_values(proxysql_uptime_seconds_total, instance)",
-        "error": null,
         "hide": 0,
         "includeAll": false,
-        "label": null,
         "multi": false,
-        "name": "instance",
+        "name": "DS_PROMETHEUS",
         "options": [],
-        "query": "label_values(proxysql_uptime_seconds_total, instance)",
-        "refresh": 2,
+        "query": "prometheus",
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "datasource"
       },
       {
-        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "test",
+          "value": "test"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus_ds"
+        },
+        "definition": "query_result(proxysql_client_connections_total)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Env",
+        "multi": false,
+        "name": "env",
+        "options": [],
+        "query": {
+          "query": "query_result(proxysql_client_connections_total)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "/.*env=\"([^\"]+).*/",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
         "current": {
           "selected": false,
-          "text": "proxysql",
-          "value": "proxysql"
+          "text": "test-k8s-cluster",
+          "value": "test-k8s-cluster"
         },
-        "datasource": "Prometheus",
-        "definition": "label_values(proxysql_client_connections_connected{instance=~\"$instance\"},job)",
-        "error": null,
-        "hide": 2,
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DS_PROMETHEUS}"
+        },
+        "definition": "query_result(proxysql_client_connections_total{env=\"$env\"})",
+        "hide": 0,
         "includeAll": false,
-        "label": "job",
+        "multi": false,
+        "name": "cluster",
+        "options": [],
+        "query": {
+          "query": "query_result(proxysql_client_connections_total{env=\"$env\"})",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "/.*cluster=\"([^\"]+).*/",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "mir24",
+          "value": "mir24"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DS_PROMETHEUS}"
+        },
+        "definition": "query_result(proxysql_client_connections_total{cluster=\"$cluster\"})",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Namespace",
+        "multi": false,
+        "name": "namespace",
+        "options": [],
+        "query": {
+          "query": "query_result(proxysql_client_connections_total{cluster=\"$cluster\"})",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "/.*namespace=\"([^\"]+).*/",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "mir24-proxysql",
+          "value": "mir24-proxysql"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DS_PROMETHEUS}"
+        },
+        "definition": "query_result(proxysql_client_connections_total{namespace=\"$namespace\"})",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Job",
         "multi": false,
         "name": "job",
         "options": [],
-        "query": "label_values(proxysql_client_connections_connected{instance=~\"$instance\"},job)",
-        "refresh": 2,
-        "regex": "",
+        "query": {
+          "query": "query_result(proxysql_client_connections_total{namespace=\"$namespace\"})",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "/.*job=\"([^\"]+).*/",
         "skipUrlSync": false,
         "sort": 0,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "mir24-proxysql-5bcb954b6f-t9bdc",
+          "value": "mir24-proxysql-5bcb954b6f-t9bdc"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DS_PROMETHEUS}"
+        },
+        "definition": "query_result(proxysql_client_connections_total{job=\"$job\"})",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Pod",
+        "multi": false,
+        "name": "pod",
+        "options": [],
+        "query": {
+          "query": "query_result(proxysql_client_connections_total{job=\"$job\"})",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "/.*pod=\"([^\"]+).*/",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "auto": false,
+        "auto_count": 30,
+        "auto_min": "10s",
+        "current": {
+          "selected": false,
+          "text": "1s",
+          "value": "1s"
+        },
+        "hide": 0,
+        "label": "Interval",
+        "name": "interval",
+        "options": [
+          {
+            "selected": true,
+            "text": "1s",
+            "value": "1s"
+          },
+          {
+            "selected": false,
+            "text": "5s",
+            "value": "5s"
+          },
+          {
+            "selected": false,
+            "text": "30s",
+            "value": "30s"
+          },
+          {
+            "selected": false,
+            "text": "1m",
+            "value": "1m"
+          },
+          {
+            "selected": false,
+            "text": "5m",
+            "value": "5m"
+          },
+          {
+            "selected": false,
+            "text": "15m",
+            "value": "15m"
+          },
+          {
+            "selected": false,
+            "text": "1h",
+            "value": "1h"
+          },
+          {
+            "selected": false,
+            "text": "6h",
+            "value": "6h"
+          },
+          {
+            "selected": false,
+            "text": "1d",
+            "value": "1d"
+          },
+          {
+            "selected": false,
+            "text": "7d",
+            "value": "7d"
+          },
+          {
+            "selected": false,
+            "text": "15d",
+            "value": "15d"
+          }
+        ],
+        "query": "1s,5s,30s,1m,5m,15m,1h,6h,1d,7d,15d",
+        "refresh": 2,
+        "skipUrlSync": false,
+        "type": "interval"
       }
     ]
   },
